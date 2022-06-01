@@ -1,0 +1,20 @@
+{
+    "name": "badr/php8-create-symfony",
+    "autoload": {
+        "psr-4": {
+            "Badr\\Php8CreateSymfony\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "badrman",
+            "email": "badr.bechtioui@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "require": {
+        "symfony/http-foundation": "^6.1"
+    }
+}
