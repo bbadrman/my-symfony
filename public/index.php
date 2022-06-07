@@ -1,7 +1,12 @@
 <?php
 
+
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -10,29 +15,30 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $request = Request::createFromGlobals();
 
-// var_dump($request->getPathInfo());
 
-$response = new Response();
+$routes = require  __DIR__ . '/../src/routes.php';
 
-$map = [
+$context = new RequestContext();
+
+$context->fromRequest($request);
+
+$urlMatcher = new UrlMatcher($routes, $context);
+
+
+try {
     
-    '/hello' => 'hello.php',
-    '/bye' => 'bye.php',
-    '/about' => 'cms/about.php',
-];
-
-$pathInfo = $request->getPathInfo();
-
-// die("Path Info est: ".$pathInfo);
-if (isset($pathInfo)) {
+    extract($urlMatcher->match($request->getPathInfo()));
     ob_start();
-    include  __DIR__ . '/../src/pages/' . $map[$pathInfo];
-    $response->setContent(ob_get_clean());
+    include __DIR__ . '/../src/pages/' . $_route . '.php';
+    $response = new Response(ob_get_clean());
 
-}else {
-    $response->setContent("la page demande n'existe pas");
-    $response->setStatusCode(404);
-}  
+} catch(ResourceNotFoundException $e) {
+    $response = new Response("la page demandée n'existe pas", 404);
+    
+} catch(Exception $e) {
+    $response = new Response("Erreur arrivée sur le serveur", 500);
+
+}
 
 
 $response->send();

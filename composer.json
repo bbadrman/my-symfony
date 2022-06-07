@@ -16,6 +16,7 @@
     },
     "require": {
         "symfony/http-foundation": "^6.1",
-        "symfony/apache-pack": "^1.0"
+        "symfony/apache-pack": "^1.0",
+        "symfony/routing": "^6.1"
     }
 }
