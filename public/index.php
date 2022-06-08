@@ -17,20 +17,29 @@ $request = Request::createFromGlobals();
 
 
 $routes = require  __DIR__ . '/../src/routes.php';
+// var_dump($routes);
 
 $context = new RequestContext();
 
 $context->fromRequest($request);
+
+// var_dump($context);
 
 $urlMatcher = new UrlMatcher($routes, $context);
 
 
 try {
     
-    extract($urlMatcher->match($request->getPathInfo()));
-    ob_start();
-    include __DIR__ . '/../src/pages/' . $_route . '.php';
-    $response = new Response(ob_get_clean());
+    $resultat = ($urlMatcher->match($request->getPathInfo()));
+// var_dump($resultat);
+
+    $request->attributes->add($resultat);
+    
+    $response  = call_user_func($resultat['_controller'], $request);
+// var_dump($response);
+    // ob_start();
+    // include __DIR__ . '/../src/pages/' . $_route . '.php';
+    // $response = new Response(ob_get_clean());
 
 } catch(ResourceNotFoundException $e) {
     $response = new Response("la page demandée n'existe pas", 404);
@@ -39,6 +48,5 @@ try {
     $response = new Response("Erreur arrivée sur le serveur", 500);
 
 }
-
 
 $response->send();

@@ -2,7 +2,7 @@
     "name": "badr/php8-create-symfony",
     "autoload": {
         "psr-4": {
-            "Badr\\Php8CreateSymfony\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
