@@ -1,4 +1,5 @@
 <?php
+namespace App;
 
 
 use Exception;
@@ -6,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 
@@ -27,15 +30,20 @@ $context->fromRequest($request);
 
 $urlMatcher = new UrlMatcher($routes, $context);
 
+$controllerResoulver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
 
+ 
 try {
     
-    $resultat = ($urlMatcher->match($request->getPathInfo()));
-// var_dump($resultat);
+    $request->attributes->add($urlMatcher->match($request->getPathInfo()));
 
-    $request->attributes->add($resultat);
+    $controller = $controllerResoulver->getController($request);
     
-    $response  = call_user_func($resultat['_controller'], $request);
+    $arguments = $argumentResolver->getArguments($request, $controller);
+   
+    
+    $response  = call_user_func_array( $controller, $arguments);
 // var_dump($response);
     // ob_start();
     // include __DIR__ . '/../src/pages/' . $_route . '.php';
