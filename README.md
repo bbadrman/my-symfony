@@ -25,3 +25,6 @@ soulition :  taper ps -ef | grep php
   apres la liste en trouve dr       
    7212    6914  0 20:52 pts/0    00:00:00 php -S localhost:8080 - t public
 et taper kill -9 7212
+
+### composer require symfony/http-kernel
+  dans ce classe en trouve le controller resoulver, il permet de creer un colllable en se basant sur un attribute content dans l'objet request 
