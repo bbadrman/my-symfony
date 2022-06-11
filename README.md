@@ -28,3 +28,6 @@ et taper kill -9 7212
 
 ### composer require symfony/http-kernel
   dans ce classe en trouve le controller resoulver, il permet de creer un colllable en se basant sur un attribute content dans l'objet request 
+### event dispatcher
+  libiraire php  a telecharger pour install
+  taper "composer require symfony/event-dispatcher"
