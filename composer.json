@@ -19,6 +19,7 @@
         "symfony/http-foundation": "^6.1",
         "symfony/apache-pack": "^1.0",
         "symfony/routing": "^6.1",
-        "symfony/http-kernel": "^6.1"
+        "symfony/http-kernel": "^6.1",
+        "symfony/event-dispatcher": "^6.1"
     }
 }
